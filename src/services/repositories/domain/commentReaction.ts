@@ -1,4 +1,4 @@
-export interface commentReaction {
+export interface CommentReaction {
     id: number,
     user_id: number,
     comment_id: number,
