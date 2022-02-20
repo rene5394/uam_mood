@@ -1,21 +1,21 @@
 import { Request, Response } from 'express'
 import { route, GET, POST, PUT } from 'awilix-express'
-import { CommentService } from '../services/comment.service'
-import { CommentCreateDto, CommentUpdateDto } from '../dtos/comment.dto'
+import { MoodCreateDto, MoodUpdateDto } from '../dtos/mood.dto'
+import { MoodService } from '../services/mood.service'
 
-@route('/comments')
-export class CommentController {
+@route('/moods')
+export class MoodController {
     constructor(
-        private readonly commentService: CommentService
+        private readonly moodService: MoodService
     ) {}
     
-    @route('/mood/:id')
+    @route('/:date')
     @GET()
-    public async allByMoodId(req: Request, res: Response): Promise<void> {
+    public async allByDate(req: Request, res: Response) {
         try {
-            const id = parseInt(req.params.id)
-
-            const result = await this.commentService.allByMoodId(id)
+            const date = new Date(req.params.date)
+            
+            const result = await this.moodService.allByDate(date)
 
             if (result) {
                 res.status(200)
@@ -25,7 +25,7 @@ export class CommentController {
             }
 
             res.status(400)
-            res.send('Bad request')
+            res.send()
 
             return
         } catch (error) {
@@ -38,11 +38,11 @@ export class CommentController {
 
     @route('/:id')
     @GET()
-    public async find(req: Request, res: Response): Promise<void> {
+    public async find(req: Request, res: Response) {
         try {
             const id = parseInt(req.params.id)
 
-            const result = await this.commentService.find(id)
+            const result = await this.moodService.find(id)
 
             if (result) {
                 res.status(200)
@@ -64,15 +64,15 @@ export class CommentController {
     }
 
     @POST()
-    public async store(req: Request, res: Response): Promise<void> {
+    public async store(req: Request, res: Response) {
         try {
-            await this.commentService.store({
+            await this.moodService.store({
                 user_id: req.body.user_id,
-                mood_id: req.body.mood_id,
+                feeling_id: req.body.feeling_id,
                 comment: req.body.comment
-            } as CommentCreateDto)
+            } as MoodCreateDto)
 
-            res.send(201)
+            res.status(201)
             res.send()
 
             return
@@ -90,9 +90,10 @@ export class CommentController {
         try {
             const id = parseInt(req.params.id)
 
-            await this.commentService.update(id, {
+            await this.moodService.update(id, {
+                feeling_id: req.body.feeling_id,
                 comment: req.body.comment
-            } as CommentUpdateDto)
+            } as MoodUpdateDto)
 
             res.status(200)
             res.send()
