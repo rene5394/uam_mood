@@ -17,7 +17,7 @@ export class MoodService {
     }
 
     public async store(entry: MoodCreateDto): Promise<void> {
-        await this.moodRepository.store(entry as Mood)
+        return await this.moodRepository.store(entry as Mood)
     }
 
     public async update(id: number, entry: MoodUpdateDto): Promise<void> {
@@ -27,9 +27,9 @@ export class MoodService {
             originalEntry.feeling_id = entry.feeling_id
             originalEntry.comment = entry.comment
 
-            await this.moodRepository.update(id, originalEntry);
+            await this.moodRepository.update(originalEntry)
         } else {
-            throw new ApplicationException('Mood not found.');
+            throw new ApplicationException('Mood not found.')
         }
     }
 }
