@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import { route, GET, POST, PUT } from 'awilix-express'
 import { CommentService } from '../services/comment.service'
 import { CommentCreateDto, CommentUpdateDto } from '../dtos/comment.dto'
+import Joi from 'joi'
+import { storeCommentSchema, updateCommentSchema } from '../schemas/comment.schema'
 
 @route('/comments')
 export class CommentController {
@@ -66,14 +68,27 @@ export class CommentController {
     @POST()
     public async store(req: Request, res: Response): Promise<void> {
         try {
-            await this.commentService.store({
+            const { error, value } = storeCommentSchema.validate({
                 user_id: req.body.user_id,
                 mood_id: req.body.mood_id,
                 comment: req.body.comment
-            } as CommentCreateDto)
+            })
 
-            res.send(201)
-            res.send()
+            if (!error) {
+                let comment = value
+
+                await this.commentService.store(
+                    comment as CommentCreateDto
+                )
+    
+                res.status(201)
+                res.send()
+
+                return
+            }
+
+            res.status(400)
+            res.send(`${error}`)
 
             return
         } catch (error) {
@@ -90,14 +105,21 @@ export class CommentController {
         try {
             const id = parseInt(req.params.id)
 
-            await this.commentService.update(id, {
+            const { error } = updateCommentSchema.validate({
+                id: id,
                 comment: req.body.comment
-            } as CommentUpdateDto)
+            })
 
-            res.status(200)
-            res.send()
-
-            return
+            if (!error) {
+                await this.commentService.update(id, {
+                    comment: req.body.comment
+                } as CommentUpdateDto)
+    
+                res.status(200)
+                res.send()
+    
+                return
+            }
         } catch (error) {
             res.status(404)
             res.send(`${error}`)
