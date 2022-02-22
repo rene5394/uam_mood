@@ -24,8 +24,8 @@ export default (app: Application): void => {
         commentRepository: asClass(CommentMySQLRepository).scoped(),
         commentReactionRepository: asClass(CommentReactionMySQLRepository).scoped(),
         feelingRepository: asClass(FeelingMySQLRepository).scoped(),
-        moodRepository: asClass(MoodReactionMySQLRepository).scoped(),
-        moodReactionRepository: asClass(MoodMySQLRepository).scoped(),
+        moodRepository: asClass(MoodMySQLRepository).scoped(),
+        moodReactionRepository: asClass(MoodReactionMySQLRepository).scoped(),
         reactionRepository: asClass(ReactionMySQLRepository).scoped(),
 
         // Services
