@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { route, GET, POST, PUT } from 'awilix-express'
 import { CommentService } from '../services/comment.service'
 import { CommentCreateDto, CommentUpdateDto } from '../dtos/comment.dto'
-import Joi from 'joi'
 import { storeCommentSchema, updateCommentSchema } from '../schemas/comment.schema'
 
 @route('/comments')
