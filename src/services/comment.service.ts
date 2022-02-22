@@ -28,7 +28,7 @@ export class CommentService {
 
             await this.commentRepository.update(originalEntry)
         } else {
-            throw new ApplicationException('Mood not found.');
+            throw new ApplicationException('Mood not found.')
         }
     }
 }
