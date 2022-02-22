@@ -9,7 +9,7 @@ export class MoodController {
         private readonly moodService: MoodService
     ) {}
     
-    @route('/:date')
+    @route('date/:date')
     @GET()
     public async allByDate(req: Request, res: Response) {
         try {
