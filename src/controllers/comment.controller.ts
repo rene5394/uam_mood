@@ -119,6 +119,11 @@ export class CommentController {
     
                 return
             }
+
+            res.status(400)
+            res.send(`${error}`)
+
+            return
         } catch (error) {
             res.status(404)
             res.send(`${error}`)

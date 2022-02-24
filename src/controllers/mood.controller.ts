@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { route, GET, POST, PUT } from 'awilix-express'
 import { MoodCreateDto, MoodUpdateDto } from '../dtos/mood.dto'
 import { MoodService } from '../services/mood.service'
+import { storeMoodSchema, updateMoodSchema } from '../schemas/mood.schema'
 
 @route('/moods')
 export class MoodController {
@@ -66,14 +67,27 @@ export class MoodController {
     @POST()
     public async store(req: Request, res: Response) {
         try {
-            await this.moodService.store({
+            const { error, value } = storeMoodSchema.validate({
                 user_id: req.body.user_id,
                 feeling_id: req.body.feeling_id,
                 comment: req.body.comment
-            } as MoodCreateDto)
+            })
 
-            res.status(201)
-            res.send()
+            if (!error) {
+                let mood = value
+
+                await this.moodService.store(
+                     mood as MoodCreateDto
+                )
+    
+                res.status(201)
+                res.send()
+    
+                return
+            }
+
+            res.status(400)
+            res.send(`${error}`)
 
             return
         } catch (error) {
@@ -90,13 +104,26 @@ export class MoodController {
         try {
             const id = parseInt(req.params.id)
 
-            await this.moodService.update(id, {
+            const { error } = updateMoodSchema.validate({
+                id: id,
                 feeling_id: req.body.feeling_id,
                 comment: req.body.comment
-            } as MoodUpdateDto)
+            })
 
-            res.status(200)
-            res.send()
+            if (!error) {
+                await this.moodService.update(id, {
+                    feeling_id: req.body.feeling_id,
+                    comment: req.body.comment
+                } as MoodUpdateDto)
+    
+                res.status(200)
+                res.send()
+    
+                return
+            }
+
+            res.status(400)
+            res.send(`${error}`)
 
             return
         } catch (error) {
