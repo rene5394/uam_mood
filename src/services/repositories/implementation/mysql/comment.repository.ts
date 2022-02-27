@@ -7,7 +7,7 @@ export class CommentMySQLRepository implements CommentRepository {
         const [rows] = await connector.execute(
             `SELECT comments.*
             FROM comments
-            INNER JOIN moods ON comments.mood_id = mood.id
+            INNER JOIN moods ON comments.mood_id = moods.id
             WHERE moods.id = ?`,
             [moodId]
         )
