@@ -5,7 +5,7 @@ import { MoodRepository } from '../../mood.repository'
 export class MoodMySQLRepository implements MoodRepository {
     public async allByDate(date: Date): Promise<Mood[] | null> {
         const [rows] = await connector.execute(
-            `SELECT * FROM moods WHERE moods.created_at = ?`,
+            `SELECT * FROM moods WHERE date(moods.created_at) = date(?)`,
             [date]
         )
 
