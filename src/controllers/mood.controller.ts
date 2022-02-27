@@ -3,6 +3,7 @@ import { route, GET, POST, PUT } from 'awilix-express'
 import { MoodCreateDto, MoodUpdateDto } from '../dtos/mood.dto'
 import { MoodService } from '../services/mood.service'
 import { storeMoodSchema, updateMoodSchema } from '../schemas/mood.schema'
+import { UTCDateTimeToLocal } from '../common/utils/timeConverter.util'
 
 @route('/moods')
 export class MoodController {
@@ -14,9 +15,10 @@ export class MoodController {
     @GET()
     public async allByDate(req: Request, res: Response) {
         try {
-            const date = new Date(req.params.date)
+            const UTCDateTime = new Date(req.params.date)
+            const localDateTime = UTCDateTimeToLocal(UTCDateTime)
             
-            const result = await this.moodService.allByDate(date)
+            const result = await this.moodService.allByDate(localDateTime)
 
             if (result) {
                 res.status(200)
