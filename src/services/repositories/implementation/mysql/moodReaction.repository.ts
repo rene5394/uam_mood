@@ -7,12 +7,25 @@ export class MoodReactionMySQLRepository implements MoodReactionRepository {
         const [rows] = await connector.execute(
             `SELECT mood_reactions.*
             FROM mood_reactions
-            INNER JOIN moods ON mood_reactions.reaction_id = moods.id
+            INNER JOIN moods ON mood_reactions.mood_id = moods.id
             WHERE moods.id = ?`,
             [moodId]
         )
 
         return rows as MoodReaction[]
+    }
+
+    public async find(id: number): Promise<MoodReaction | null> {
+        const [rows]: any[] = await connector.execute(
+            'SELECT * FROM mood_reactions WHERE id = ?',
+            [id]
+        )
+
+        if (rows[0]) {
+            return rows[0] as MoodReaction
+        }
+
+        return null
     }
 
     public async store(entry: MoodReaction): Promise<void> {

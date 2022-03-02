@@ -5,6 +5,7 @@ import { CommentService } from './services/comment.service'
 import { CommentReactionService } from './services/commentReaction.service'
 import { FeelingService } from './services/feeling.service'
 import { MoodService } from './services/mood.service'
+import { MoodReactionService } from './services/moodReaction.service'
 import { ReactionService } from './services/reaction.service'
 import { CommentMySQLRepository } from './services/repositories/implementation/mysql/comment.repository'
 import { CommentReactionMySQLRepository } from './services/repositories/implementation/mysql/commentReaction.repository'
@@ -34,6 +35,7 @@ export default (app: Application): void => {
         commentReactionService: asClass(CommentReactionService).scoped(),
         feelingService: asClass(FeelingService).scoped(),
         moodService: asClass(MoodService).scoped(),
+        moodReactionService: asClass(MoodReactionService).scoped(),
         reactionService: asClass(ReactionService).scoped()
     })
 
