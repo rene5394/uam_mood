@@ -29,20 +29,16 @@ export class CommentMySQLRepository implements CommentRepository {
     }
 
     public async store(entry: Comment): Promise<void> {
-        const now = new Date()
-
         await connector.execute(
-            'INSERT INTO comments(user_id, mood_id, comment, created_at) VALUES(?, ?, ?, ?)',
-            [entry.user_id, entry.mood_id, entry.comment, now]
+            'INSERT INTO comments(user_id, mood_id, comment) VALUES(?, ?, ?)',
+            [entry.user_id, entry.mood_id, entry.comment]
         )
     }
 
     public async update(entry: Comment): Promise<void> {
-        const now = new Date()
-        
         await connector.execute(
-            'UPDATE comments SET mood_id = ?, comment = ?, updated_at = ? WHERE id = ?',
-            [entry.mood_id, entry.comment, now, entry.id]
+            'UPDATE comments SET mood_id = ?, comment = ? WHERE id = ?',
+            [entry.mood_id, entry.comment, entry.id]
         )
     }
 }

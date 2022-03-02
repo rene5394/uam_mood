@@ -29,17 +29,15 @@ export class MoodMySQLRepository implements MoodRepository {
         const now = new Date()
 
         await connector.execute(
-            'INSERT INTO moods(user_id, feeling_id, comment, created_at) VALUES(?, ?, ?, ?)',
-            [entry.user_id, entry.feeling_id, entry.comment, now]
+            'INSERT INTO moods(user_id, feeling_id, comment) VALUES(?, ?, ?)',
+            [entry.user_id, entry.feeling_id, entry.comment]
         )
     }
 
     public async update(entry: Mood): Promise<void> {
-        const now = new Date()
-        
         await connector.execute(
-            'UPDATE moods SET feeling_id = ?, comment = ?, updated_at = ? WHERE id = ?',
-            [entry.feeling_id, entry.comment, now, entry.id]
+            'UPDATE moods SET feeling_id = ?, comment = ? WHERE id = ?',
+            [entry.feeling_id, entry.comment, entry.id]
         )
     }
 }
