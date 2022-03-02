@@ -1,11 +1,11 @@
-interface CommentCreateDto {
+interface CommentReactionCreateDto {
     user_id: number,
-    mood_id: number,
-    comment: string
+    comment_id: number,
+    reaction_id: number
 }
 
-interface CommentUpdateDto {
-    comment: string
+interface CommentReactionUpdateDto {
+    reaction_id: number
 }
 
-export { CommentCreateDto, CommentUpdateDto }
+export { CommentReactionCreateDto, CommentReactionUpdateDto }

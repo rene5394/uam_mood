@@ -2,6 +2,7 @@ import { Application } from 'express'
 import { asClass, createContainer } from 'awilix'
 import { scopePerRequest } from 'awilix-express'
 import { CommentService } from './services/comment.service'
+import { CommentReactionService } from './services/commentReaction.service'
 import { FeelingService } from './services/feeling.service'
 import { MoodService } from './services/mood.service'
 import { ReactionService } from './services/reaction.service'
@@ -30,6 +31,7 @@ export default (app: Application): void => {
 
         // Services
         commentService: asClass(CommentService).scoped(),
+        commentReactionService: asClass(CommentReactionService).scoped(),
         feelingService: asClass(FeelingService).scoped(),
         moodService: asClass(MoodService).scoped(),
         reactionService: asClass(ReactionService).scoped()
