@@ -16,20 +16,16 @@ export class MoodReactionMySQLRepository implements MoodReactionRepository {
     }
 
     public async store(entry: MoodReaction): Promise<void> {
-        const now = new Date()
-
-        await connector.execute(
-            'INSERT INTO mood_reactions(user_id, mood_id, reaction_id, created_at) VALUES(?, ?, ?, ?)',
-            [entry.user_id, entry.mood_id, entry.reaction_id, now]
+    await connector.execute(
+            'INSERT INTO mood_reactions(user_id, mood_id, reaction_id) VALUES(?, ?, ?)',
+            [entry.user_id, entry.mood_id, entry.reaction_id]
         )
     }
 
     public async update(entry: MoodReaction): Promise<void> {
-        const now = new Date()
-
         await connector.execute(
-            'UPDATE mood_reactions SET reaction_id = ?, updated_at = ? WHERE id = ?',
-            [entry.reaction_id, now, entry.id]
+            'UPDATE mood_reactions SET reaction_id = ? WHERE id = ?',
+            [entry.reaction_id, entry.id]
         )
     }
 }
