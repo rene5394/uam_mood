@@ -6,30 +6,30 @@ import { CommentReaction } from './repositories/domain/commentReaction'
 export class CommentReactionService {
     constructor(
         private readonly commentReactionRepository: CommentReactionRepository
-     ) {}
+    ) {}
 
-     public async allByCommentId(CommentId: number): Promise<CommentReaction[] | null> {
-         return await this.commentReactionRepository.allByCommentId(CommentId)
-     }
+    public async allByCommentId(CommentId: number): Promise<CommentReaction[] | null> {
+        return await this.commentReactionRepository.allByCommentId(CommentId)
+    }
 
-     public async find(id: number): Promise<CommentReaction | null> {
+    public async find(id: number): Promise<CommentReaction | null> {
         return await this.commentReactionRepository.find(id)
     }
 
-     public async store(entry: CommentReactionCreateDto) {
+    public async store(entry: CommentReactionCreateDto) {
         return await this.commentReactionRepository.store(entry as CommentReaction)
-     }
+    }
 
-     public async update(id: number, entry: CommentReactionUpdateDto) {
-         let originalEntry = await this.commentReactionRepository.find(id)
+    public async update(id: number, entry: CommentReactionUpdateDto) {
+        let originalEntry = await this.commentReactionRepository.find(id)
 
-         if (originalEntry) {
+        if (originalEntry) {
             originalEntry.reaction_id = entry.reaction_id
 
             await this.commentReactionRepository.update(originalEntry)
-         } else {
-             throw new ApplicationException('Comment Reaction not found.')
-         }
+        } else {
+            throw new ApplicationException('Comment Reaction not found.')
+        }
      }
      
 }
