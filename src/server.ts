@@ -1,5 +1,5 @@
 import { app } from './app'
 
-app.listen(3030, () => {
-    console.log('Application is running on port 3030.')
+app.listen(8081, () => {
+    console.log('Application is running on port 8081.')
 })
