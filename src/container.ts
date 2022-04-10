@@ -13,7 +13,6 @@ import { FeelingMySQLRepository } from './services/repositories/implementation/m
 import { MoodReactionMySQLRepository } from './services/repositories/implementation/mysql/moodReaction.repository'
 import { MoodMySQLRepository } from './services/repositories/implementation/mysql/mood.repository'
 import { ReactionMySQLRepository } from './services/repositories/implementation/mysql/reaction.repository'
-import { UserMySQLRepository } from './services/repositories/implementation/mysql/user.repository'
 
 export default (app: Application): void => {
     const container = createContainer({
@@ -22,7 +21,6 @@ export default (app: Application): void => {
 
     container.register({
         // Repositories
-        userRepository: asClass(UserMySQLRepository).scoped(),
         commentRepository: asClass(CommentMySQLRepository).scoped(),
         commentReactionRepository: asClass(CommentReactionMySQLRepository).scoped(),
         feelingRepository: asClass(FeelingMySQLRepository).scoped(),
